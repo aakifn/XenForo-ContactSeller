@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<addon addon_id="NixFifty_ContactSeller" title="NixFifty: Contact Seller" version_string="1.0.2" version_id="1000270" url="https://nixfifty.com/" install_callback_class="NixFifty_ContactSeller_Install" install_callback_method="install" uninstall_callback_class="NixFifty_ContactSeller_Install" uninstall_callback_method="uninstall">
+  <admin_navigation/>
+  <admin_permissions/>
+  <admin_style_properties/>
+  <admin_templates>
+    <template title="nf_contactseller_forum_edit"><![CDATA[<fieldset>
+	<xen:checkboxunit label="">
+		<xen:option name="contact_seller_enabled" label="{xen:phrase nf_contactseller_enable_contact_seller_button}" selected="{$forum.contact_seller_enabled}">
+			<xen:hint>{xen:phrase nf_contactseller_enable_contact_seller_button_explain}</xen:hint>
+		</xen:option>
+	</xen:checkboxunit>
+</fieldset>]]></template>
+  </admin_templates>
+  <admin_template_modifications>
+    <modification template="forum_edit" modification_key="nf_contactseller_forum_edit" description="" execution_order="9" enabled="1" action="str_replace">
+      <find><![CDATA[<!-- slot: after_description -->]]></find>
+      <replace><![CDATA[$0
+<xen:include template="nf_contactseller_forum_edit" />]]></replace>
+    </modification>
+  </admin_template_modifications>
+  <code_events/>
+  <code_event_listeners>
+    <listener event_id="load_class" execute_order="10" callback_class="NixFifty_ContactSeller_Listen" callback_method="loadClass" active="1" hint="XenForo_ControllerAdmin_Forum" description="Listens for the XenForo_ControllerAdmin_Forum class."/>
+    <listener event_id="load_class" execute_order="10" callback_class="NixFifty_ContactSeller_Listen" callback_method="loadClass" active="1" hint="XenForo_DataWriter_Forum" description="Listens for the XenForo_DataWriter_Forum class."/>
+  </code_event_listeners>
+  <cron/>
+  <email_templates/>
+  <email_template_modifications/>
+  <optiongroups/>
+  <permissions>
+    <permission_groups/>
+    <permissions/>
+    <interface_groups/>
+  </permissions>
+  <phrases>
+    <phrase title="nf_contactseller" version_id="1000" version_string="1.0.0"><![CDATA[Contact Seller]]></phrase>
+    <phrase title="nf_contactseller_enable_contact_seller_button" version_id="1000" version_string="1.0.0"><![CDATA[Enable contact seller button]]></phrase>
+    <phrase title="nf_contactseller_enable_contact_seller_button_explain" version_id="1000" version_string="1.0.0"><![CDATA[If checked, a button will be displayed alongside the first post allowing users to contact the thread author via Conversation.]]></phrase>
+  </phrases>
+  <route_prefixes/>
+  <style_properties/>
+  <templates>
+    <template title="nf_contactseller_message" version_id="1001" version_string="1.0.0"><![CDATA[<xen:if is="{$forum.contact_seller_enabled} && {$post.position} == 0">
+	<a href="{xen:link 'conversations/add', '', 'to={$thread.username}'}" class="callToAction" style="float:right;"><span>{xen:phrase nf_contactseller}</span></a>
+</xen:if>]]></template>
+  </templates>
+  <public_template_modifications>
+    <modification template="message" modification_key="nf_contactseller_message" description="" execution_order="10" enabled="1" action="str_replace">
+      <find><![CDATA[<xen:hook name="message_content" params="{xen:array 'message={$message}'}">]]></find>
+      <replace><![CDATA[<xen:include template="nf_contactseller_message" />
+$0]]></replace>
+    </modification>
+  </public_template_modifications>
+  <bb_code_media_sites/>
+  <bb_codes/>
+</addon>
