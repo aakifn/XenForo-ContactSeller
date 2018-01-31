@@ -18,6 +18,8 @@ class NixFifty_ContactSeller_XenForo_DataWriter_Forum extends XFCP_NixFifty_Cont
 
     protected function _preSave()
     {
+    	parent::_preSave();
+
     	if (!is_null(NixFifty_ContactSeller_Globals::$enabled))
 	    {
 	    	$this->set('contact_seller_enabled', NixFifty_ContactSeller_Globals::$enabled);
